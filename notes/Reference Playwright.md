@@ -10,6 +10,11 @@ npm init playwright@latest
 Запустить тесты
 npx playwright test
 npx playwright test --workers 1
+npx playwright test --project api-testing
+npx playwright test example.spec.ts
+npx playwright test -g 'Name of the test'
+// Run only failed
+npx playwright test --last-failed
 
 To open **UI mode of Playwright**
 npx playwright test --ui

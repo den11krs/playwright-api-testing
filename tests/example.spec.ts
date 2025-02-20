@@ -123,4 +123,7 @@ test('Create, Update and Delete Article', async ({ request }) => {
   });
 
   expect(deleteArticleResponse.status()).toEqual(204);
-}); 
+});
+
+test.skip('Skip this test!', async ({ request }) => { });
+test.fixme('Fix Me!', async ({ request }) => { });
