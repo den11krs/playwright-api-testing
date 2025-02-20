@@ -1,5 +1,15 @@
 import { test, expect } from '@playwright/test';
-import { console } from 'inspector';
+
+let authToken: string;
+test.beforeAll("Run this before each test", async ({ request }) => {
+  const tokenResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+    data: { 'user': { 'email': 'den11krs@gmail.com', 'password': 'd~oC$<8xA`2*_}k-"8' } }
+  });
+  const tokenResponseJSON = await tokenResponse.json();
+  authToken = 'Token ' + tokenResponseJSON.user.token;
+});
+
+
 
 test('Get Test Tags', async ({ request }) => {
   const tagsResponse = await request.get('https://conduit-api.bondaracademy.com/api/tags');
@@ -21,15 +31,9 @@ test('Get All Articles', async ({ request }) => {
 });
 
 test('Create and Delete Article', async ({ request }) => {
-  const tokenResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: { 'user': { 'email': 'den11krs@gmail.com', 'password': 'd~oC$<8xA`2*_}k-"8' } }
-  });
-  const tokenResponseJSON = await tokenResponse.json();
-  const authToken = tokenResponseJSON.user.token;
-
   const newArticleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles', {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     },
     data: {
       'article': {
@@ -47,7 +51,7 @@ test('Create and Delete Article', async ({ request }) => {
 
   const articlesResponse = await request.get('https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0', {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     }
   });
   const articlesResponseJSON = await articlesResponse.json();
@@ -57,7 +61,7 @@ test('Create and Delete Article', async ({ request }) => {
 
   const deleteArticleResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     }
   });
 
@@ -66,19 +70,9 @@ test('Create and Delete Article', async ({ request }) => {
 
 
 test('Create, Update and Delete Article', async ({ request }) => {
-  const tokenResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: {
-      'user': {
-        'email': 'den11krs@gmail.com', 'password': 'd~oC$<8xA`2*_}k-"8'
-      }
-    }
-  });
-  const tokenResponseJSON = await tokenResponse.json();
-  const authToken = tokenResponseJSON.user.token;
-
   const newArticleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles', {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     },
     data: {
       'article': {
@@ -96,7 +90,7 @@ test('Create, Update and Delete Article', async ({ request }) => {
 
   const updateArticleResponse = await request.put(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     },
     data: {
       'article': {
@@ -114,7 +108,7 @@ test('Create, Update and Delete Article', async ({ request }) => {
 
   const articlesResponse = await request.get('https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0', {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     }
   });
   const articlesResponseJSON = await articlesResponse.json();
@@ -124,7 +118,7 @@ test('Create, Update and Delete Article', async ({ request }) => {
 
   const deleteArticleResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${newSlugId}`, {
     headers: {
-      'Authorization': `Token ${authToken}`
+      'Authorization': authToken
     }
   });
 
