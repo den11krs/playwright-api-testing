@@ -9,6 +9,7 @@ npm init playwright@latest
 
 Запустить тесты
 npx playwright test
+npx playwright test --workers 1
 
 To open **UI mode of Playwright**
 npx playwright test --ui

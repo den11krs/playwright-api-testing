@@ -1,7 +1,9 @@
 
 Следующие шаги:
 
-) Посмотреть часть 2. API Testing Basics
+) 2. API Testing Basics >>> Test Hooks
+
+) 
 
 ) 
 
